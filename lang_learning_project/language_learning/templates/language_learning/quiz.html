@@ -1,0 +1,33 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="container">
+    <div class="card">
+        <div class="card-header">
+            <h3>단어 퀴즈</h3>
+        </div>
+        <div class="card-body">
+            {% if question_word %}
+                <p>다음의 뜻을 가진 단어를 선택하세요:</p>
+                <p><strong>{{ question_word.word_text }}</strong></p>
+                <form method="post">
+                    {% csrf_token %}
+                    <input type="hidden" name="word_id" value="{{ question_word.id }}">
+                    {% for option in options %}
+                        <div>
+                            <input type="radio" id="option_{{ forloop.counter }}" name="answer" value="{{ option }}">
+                            <label for="option_{{ forloop.counter }}">{{ option }}</label>
+                        </div>
+                    {% endfor %}
+                    <button type="submit" class="btn btn-primary">제출</button>
+                </form>
+            {% else %}
+                <p>퀴즈를 제공할 단어가 없습니다.</p>
+            {% endif %}
+        </div>
+        <div class="card-footer">
+            <a href="{% url 'language_learning:index' %}" class="btn btn-secondary">돌아가기</a>
+        </div>
+    </div>
+</div>
+{% endblock %}

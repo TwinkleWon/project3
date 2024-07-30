@@ -1,0 +1,16 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="container">
+    <h1>분류 수정하기</h1>
+    <form method="post">
+        {% csrf_token %}
+        <div class="mb-3">
+            <label for="category" class="form-label">분류</label>
+            <input type="text" class="form-control" id="category" name="category" value="{{ word.category }}">
+        </div>
+        <button type="submit" class="btn btn-primary">수정하기</button>
+    </form>
+    <a href="{% url 'language_learning:word_detail' word.id %}" class="btn btn-secondary">돌아가기</a>
+</div>
+{% endblock %}
