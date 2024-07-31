@@ -2,7 +2,7 @@
 
 {% block content %}
 <div class="container">
-    <h1>단어 목록</h1>
+    <h1>単語 目錄</h1>
     <ul>
         {% for word in words %}
             <li>
@@ -17,7 +17,7 @@
             </li>
         {% endfor %}
     </ul>
-    <a href="{% url 'language_learning:word_create' %}">새 단어 추가</a>
+    <a href="{% url 'language_learning:word_create' %}">単語 プラス</a>
     <a href="{% url 'language_learning:quiz' %}" class="btn btn-primary">QUIZ</a>
 </div>
 {% endblock %}

@@ -1,16 +1,18 @@
 {% extends "base.html" %}
 
 {% block content %}
-<h1>단어 추가/수정</h1>
+<h1>単語 追加/修正</h1>
 <form method="post">
     {% csrf_token %}
     <div class="mb-3">
-        <label for="word_text" class="form-label">단어</label>
-        <input type="text" id="word_text" name="word_text" class="form-control" value="{{ form.word_text.value }}">
+        <label for="word_text" class="form-label">単語</label>
+        <input type="text" id="word_text" name="word_text" 
+        class="form-control" value="{{ form.word_text.value }}">
     </div>
     <div class="mb-3">
-        <label for="meaning" class="form-label">의미</label>
-        <input type="text" id="meaning" name="meaning" class="form-control" value="{{ form.meaning.value }}">
+        <label for="meaning" class="form-label">意味</label>
+        <input type="text" id="meaning" name="meaning" 
+        class="form-control" value="{{ form.meaning.value }}">
     </div>
     <button type="submit" class="btn btn-primary">저장</button>
 </form>

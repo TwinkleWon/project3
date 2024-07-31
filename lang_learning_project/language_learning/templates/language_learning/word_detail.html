@@ -7,11 +7,11 @@
             <h3>{{ word.word_text }}</h3>
         </div>
         <div class="card-body">
-            <p><strong>발음하는 법:</strong> {{ word.pronunciation }} 
+            <p><strong>よみがな:</strong> {{ word.pronunciation }} 
                 <!-- 발음 수정 버튼 -->
                 <a href="{% url 'language_learning:edit_pronunciation' word.id %}" class="btn btn-secondary btn-sm">수정</a>
             </p>
-            <p><strong>분류:</strong> {{ word.category }}
+            <p><strong>分類:</strong> {{ word.category }}
                 <!-- 분류 수정 버튼 -->
                 <a href="{% url 'language_learning:edit_category' word.id %}" class="btn btn-secondary btn-sm">수정</a>
             </p>

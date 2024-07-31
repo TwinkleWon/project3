@@ -15,7 +15,8 @@ def word_create(request):
             return redirect('language_learning:index')
     else:
         form = WordForm()
-    return render(request, 'language_learning/word_form.html', {'form': form})
+    return render(request, 
+                  'language_learning/word_form.html', {'form': form})
 
 def word_update(request, word_id):
     word = get_object_or_404(Word, pk=word_id)
@@ -38,39 +39,38 @@ def word_delete(request, word_id):
 def word_detail(request, word_id):
     word = get_object_or_404(Word, id=word_id)
     if request.method == "POST":
-        pronunciation = request.POST.get('pronunciation')
-        category = request.POST.get('category')
-        word.pronunciation = pronunciation
-        word.category = category
-        word.save()
-        return redirect('language_learning:word_detail', word_id=word.id)
-    return render(request, 'language_learning/word_detail.html', {'word': word})
+        form = WordForm(request.POST, instance=word)
+        if form.is_valid():
+            word = form.save(commit=False)
+            word.pronunciation = form.cleaned_data.get
+            ('pronunciation', word.pronunciation)
+            word.category = form.cleaned_data.get('category', word.category)
+            word.save()
+            return redirect('language_learning:word_detail', word_id=word.id)
+    else:
+        form = WordForm(instance=word)
+    
+    return render(request, 'language_learning/word_detail.html', {'form': form, 'word': word})
 
 def edit_pronunciation(request, word_id):
     word = get_object_or_404(Word, pk=word_id)
     if request.method == "POST":
-        form = WordForm(request.POST, instance=word)
-        if form.is_valid():
-            word = form.save(commit=False)
-            word.pronunciation = form.cleaned_data['pronunciation']
+        pronunciation = request.POST.get('pronunciation')
+        if pronunciation:
+            word.pronunciation = pronunciation
             word.save()
             return redirect('language_learning:word_detail', word_id=word.id)
-    else:
-        form = WordForm(instance=word)
-    return render(request, 'language_learning/edit_pronunciation.html', {'form': form, 'word': word})
+    return render(request, 'language_learning/edit_pronunciation.html', {'word': word})
 
 def edit_category(request, word_id):
     word = get_object_or_404(Word, pk=word_id)
     if request.method == "POST":
-        form = WordForm(request.POST, instance=word)
-        if form.is_valid():
-            word = form.save(commit=False)
-            word.category = form.cleaned_data['category']
+        category = request.POST.get('category')
+        if category:
+            word.category = category
             word.save()
             return redirect('language_learning:word_detail', word_id=word.id)
-    else:
-        form = WordForm(instance=word)
-    return render(request, 'language_learning/edit_category.html', {'form': form, 'word': word})
+    return render(request, 'language_learning/edit_category.html', {'word': word})
 
 def quiz(request):
     words = Word.objects.all()
@@ -80,7 +80,8 @@ def quiz(request):
         selected_word = get_object_or_404(Word, id=selected_word_id)
         
         correct = selected_answer == selected_word.meaning
-        return redirect('language_learning:quiz_result', word_id=selected_word_id, correct=str(correct).lower())
+        return redirect('language_learning:quiz_result',
+                        word_id=selected_word_id, correct=str(correct).lower())
 
     if words:
         question_word = random.choice(words)

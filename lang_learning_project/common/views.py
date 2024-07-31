@@ -11,7 +11,8 @@ def common_login(request):
     if request.method == "POST":
         username = request.POST["username"]
         password = request.POST["password"]
-        user = authenticate(request, username=username, password=password)
+        user = authenticate(request, 
+            username=username, password=password)
         
         if user is not None:
             login(request, user)
@@ -19,7 +20,8 @@ def common_login(request):
         return redirect("language_learning:index")
     else:
         context = {}
-        return render(request, "common/login.html", context)
+        return render(request, 
+                      "common/login.html", context)
     
 # 프로필, /common/profile/
 def common_profile(request):
